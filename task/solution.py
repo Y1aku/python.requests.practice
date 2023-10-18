@@ -49,15 +49,6 @@ async def creating():
     group_id = group_data['response']['id']
     player_id = player_data['response']['id']
 
-    print("Response from create_group:")  # TODO Отладочный код – удалить
-    print(group_data)
-
-    print("Response from create_player:")
-    print(player_data)
-
-    print(f"group_id: {group_id}")
-    print(f"player_id: {player_id}")
-
     return group_id, player_id
 
 result = asyncio.run(creating())
@@ -68,29 +59,12 @@ def player_to_group():  # Добавить плеер в группу
     player_to_group_response = requests.patch(config.url + f"api/v1/media_player?id={player_id}",
                                             headers=headers,
                                             json={"mediaGroup": group_id})
-
-    if player_to_group_response.status_code == 204:  # TODO Отладочный код – удалить
-        # 204 No Content означает успешное выполнение без возврата данных
-        print("Update successful")
-    elif player_to_group_response.status_code == 200:
-        # 200 OK означает успешное выполнение с возвратом данных (JSON, XML и т. д.)
-        print("Update successful")
-        data = player_to_group_response.json()
-        print(data)
-    else:
-        print(f"Update failed with status code {player_to_group_response.status_code}")
-
-    data = player_to_group_response.json()
-    print(data)
     to_log.do_logs(player_to_group_response)
     return player_to_group_response
 
 
 player_to_group()
-'''
-'''
 
-# Удалить плеер и группу
 
 async def delete_group():  # Удалить группу
     async with aiohttp.ClientSession() as session:
@@ -109,15 +83,6 @@ async def delete_player():  # Удалить плеер
 
 async def deleting():
     group_response, player_response = await asyncio.gather(delete_group(), delete_player())
-    group_data = await group_response.json()  # TODO Отладочный код – удалить
-    player_data = await player_response.json()
-
-    print("Response from create_group:")
-    print(group_data)
-
-    print("Response from create_player:")
-    print(player_data)
 
 
 asyncio.run(deleting())
-
