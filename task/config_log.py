@@ -17,8 +17,7 @@ class LogRules:
             logger.info(f"{status_message}:Status Code ({response.status}, {response.reason})")
         else:
             status_message = "Неуспех"
-            logger.error(
-                f"{status_message}:Status Code ({response.status}, {response.reason}), Message: {await response.text()}")
+            logger.error(f"{status_message}:Status Code ({response.status}, {response.reason}), Message: {await response.text()}")
 
 
 to_log = LogRules()
